@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>this is the login page</h1>
+    <form method="POST" autocomplete="off">
+
+        {% csrf_token %}
+
+        {{ loginform.as_p }}
+        
+        <input type="submit" value="Login">
+    </form>
+    <p><a href="{% url 'password_change' %}">Password Change</a></p>
+    <p><a href="{% url 'password_reset' %}">Password Reset</a></p>
+</body>
+</html>
