@@ -3,19 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1>Hello world</h1>
-    {% for blog in blogs %}
-        <h2>{{ blog.title }}</h2>
-        <hr>
-        <p>{{ blog.text }}</p>
-        <br>
-        <a href="{% url 'update_blog' blog.id %}">Update Blog</a>
-        <a href="{% url 'delete_blog' blog.id %}">Delete Blog</a>
-        <br><br>
-    {% endfor %}
-    <a href="{% url 'create_blog' %}">Create Blog</a>
+    <h1>Home</h1>
+    <h2>Welcome to the Blog</h2>
+    {% if user.is_authenticated %}
+    <br>
+        <a href="{% url 'create_blog' %}">Create Blog</a>
+    <br>
+    {% endif %}
+    <ul>
+        {% for blog in blogs %}
+            <li>
+                <hr>
+                <h3>{{ blog.title }}</h3>
+                <hr>
+                <p>{{ blog.text }}</p>
+                <br>
+                {% if user.is_authenticated %}
+                <hr>
+                    <a href="{% url 'update_blog' blog.id %}">Update Blog</a>
+                    <form action="{% url 'delete_blog' blog.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete Blog</button>
+                    </form>
+                <hr>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% if not user.is_authenticated %}
+        <a href="{% url 'my-login' %}">Login</a>
+    {% endif %}
+    <a href="{% url 'register' %}">Register</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'user-logout' %}">Logout</a>
+    {% endif %}
 </body>
 </html>

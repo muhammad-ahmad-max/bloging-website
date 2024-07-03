@@ -9,6 +9,7 @@ def home(request):
     blogs = Post.objects.all()
     return render(request, 'home.html', {'blogs': blogs})
 
+@login_required(login_url="my-login")
 def create_blog(request):
     if request.method == 'POST':
         form = BlogForm(request.POST, request.FILES)
@@ -19,6 +20,7 @@ def create_blog(request):
         form = BlogForm()
     return render(request, 'create_blog.html', {'form': form})
 
+@login_required(login_url="my-login")
 def update_blog(request, blog_id):
     blog = get_object_or_404(Post, id=blog_id)
     if request.method == 'POST':
@@ -30,6 +32,7 @@ def update_blog(request, blog_id):
         form = BlogForm(instance=blog)
     return render(request, 'update_blog.html', {'form': form})
 
+@login_required(login_url="my-login")
 def delete_blog(request, blog_id):
     blog = get_object_or_404(Post, id=blog_id)
     if request.method == 'POST':
@@ -53,26 +56,22 @@ def register(request):
 
 def my_login(request):
     form = LoginForm()
-    if request.method=='POST':
+    if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
         if form.is_valid():
-
             username = request.POST.get('username')
             password = request.POST.get('password')
-
             user = authenticate(request, username=username, password=password)
-            
             if user is not None:
                 auth.login(request, user)
-            return redirect("dashboard")
-        
-    context = {'loginform':form}
-        
+                return redirect('home')
+    context = {'loginform': form}
     return render(request, 'firstblog/my-login.html', context=context)
+
 
 def user_logout(request):
     auth.logout(request)
-    return redirect ('my-login')
+    return redirect ('home')
 
 @login_required(login_url='my-login')
 def dashboard (request):

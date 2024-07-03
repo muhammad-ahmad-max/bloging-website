@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>this is the login page</h1>
+    <h1>Login Here!</h1>
     <form method="POST" autocomplete="off">
 
         {% csrf_token %}
@@ -17,5 +17,6 @@
     </form>
     <p><a href="{% url 'password_change' %}">Password Change</a></p>
     <p><a href="{% url 'password_reset' %}">Password Reset</a></p>
+    <p>Or would you like to <a href="{% url 'home' %}">Return to Home</a></p>
 </body>
 </html>

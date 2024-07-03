@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Delete Blog</title>
 </head>
 <body>
-    <ul>Delete post</ul>
+    <h2>
+        Delete post
+    </h2>
     <form action="" method="post" enctype="multipart/form-data">
         {%csrf_token%}
-        {{ form }}
+        {{ form.as_p }}
         <button type="submit">Delete-Post</button>
     </form>
 </body>
